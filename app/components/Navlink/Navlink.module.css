@@ -1,0 +1,35 @@
+.wrapper {
+  width: 100%;
+}
+.navLink {
+  display: inline-block;
+  color: rgb(239, 122, 142);
+  text-decoration: none;
+  transition: 0.3s;
+  padding: 4px 8px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.navLink::after {
+  content: '';
+  position: relative;
+  display: block;
+  width: 0%;
+  transition: 0.3s;
+  margin-top: 6px;
+  height: 2px;
+  background: pink;
+}
+
+.navLink:hover {
+  color: pink;
+}
+.navLink:hover::after {
+  width: 100%;
+}
+.navLink.selected::after {
+  margin-top: 4px;
+  height: 4px;
+  width: 100%;
+}
