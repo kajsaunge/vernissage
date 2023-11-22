@@ -1,28 +1,41 @@
-import { fetchPageBlocks, fetchPageBySlug, notion } from "@/app/lib/notion";
-import bookmarkPlugin from "@notion-render/bookmark-plugin";
-import { NotionRenderer } from "@notion-render/client";
-import hljsPlugin from "@notion-render/hljs-plugin";
-import { notFound } from "next/navigation";
-import styles from "./page.module.css";
+import { fetchPageBlocks, fetchPageBySlug, notion } from '@/app/lib/notion';
+import { notFound } from 'next/navigation';
+import styles from './page.module.css';
+import NavLink from '@/app/components/Navlink/NavLink';
 
 export default async function Page({ params }) {
+  // Extract as api + helper functions
   const post = await fetchPageBySlug(params?.slug);
   if (!post) notFound();
 
   const blocks = await fetchPageBlocks(post.id);
+  const paragraph = blocks.filter((type) => type.type === 'paragraph');
+  const cover = blocks.filter((block) => block.type === 'image');
+  const url = cover[0].image.file.url;
+  const plainText = paragraph[0].paragraph.rich_text[0].plain_text;
 
-  const renderer = new NotionRenderer({
-    client: notion,
-  });
-
-  renderer.use(hljsPlugin());
-  renderer.use(bookmarkPlugin());
-
-  const html = await renderer.render(...blocks);
-  console.log("html:", html);
   return (
-    <>
-      <div dangerouslySetInnerHTML={{ __html: html }}></div>
-    </>
+    <div className={styles.wrapper}>
+      <header className={styles.header}>
+        header
+        <nav className={styles.nav}>
+          <ul className={styles.navList}>
+            <li className={styles.navListItem}>
+              <NavLink url='/'>Om</NavLink>
+            </li>
+            <li className={styles.navListItem}>
+              <NavLink url='/'>Kontakt</NavLink>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <main className={styles.main}>
+        <h1>Hej</h1>
+        <NavLink url='/'>Hem igen</NavLink>
+        <img className={styles.cover} src={url} />
+        <p>{plainText}</p>
+      </main>
+      <footer className={styles.footer}>footer</footer>
+    </div>
   );
 }
