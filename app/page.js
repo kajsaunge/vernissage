@@ -1,8 +1,18 @@
 import Image from 'next/image';
-import styles from './page.module.css';
+
+import { fetchPages } from './lib/notion';
 import NavLink from './components/Navlink/NavLink';
+import styles from './page.module.css';
 
 export default async function Home() {
+  // notion api call - fetch data - to extract
+  const pages = await fetchPages();
+  if (!pages) notFound();
+
+  const publishedPages = pages.results.filter(
+    (item) => item.properties?.Status?.status?.name === 'Published'
+  );
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
