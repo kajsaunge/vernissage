@@ -1,4 +1,4 @@
-import { fetchPageBlocks, fetchPageBySlug, notion } from '@/app/lib/notion';
+import { fetchPageBlocks, fetchPageBySlug } from '@/app/lib/notion';
 import { notFound } from 'next/navigation';
 import styles from './page.module.css';
 import NavLink from '@/app/components/Navlink/NavLink';
