@@ -1,7 +1,7 @@
-import "server-only";
+import 'server-only';
 
-import { Client } from "@notionhq/client";
-import React from "react";
+import { Client } from '@notionhq/client';
+import React from 'react';
 
 export const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -10,12 +10,6 @@ export const notion = new Client({
 export const fetchPages = React.cache(() => {
   return notion.databases.query({
     database_id: process.env.NOTION_DATABASE_ID,
-    filter: {
-      property: "Status",
-      select: {
-        equals: "Published",
-      },
-    },
   });
 });
 
@@ -24,7 +18,7 @@ export const fetchPageBySlug = React.cache((slug) => {
     .query({
       database_id: process.env.NOTION_DATABASE_ID,
       filter: {
-        property: "Slug",
+        property: 'Slug',
         rich_text: {
           equals: slug,
         },
